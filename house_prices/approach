@@ -15,5 +15,37 @@ First Approach :
             - the test data has 'missing' data for categorical variables 
             - the missing categories are different in train and test file, leading to inconsistent dummy columns in test data
             - Now because number of columns that model is built is different than the number of columns in test data, we can't really use the model as it is
-            - WE can add additional columns for categories that are missing in the test data BUT the additional categories that are present in test data are missing in the model so its not a good approach/model
+            - We can add additional columns for categories that are missing in the test data BUT the additional categories that are present in test data are missing in the model so its not a good approach/model
 
+
+Second Aprroach: 
+    - change object types to category types based on data dictionary in both test and train data. This way 
+        - data gets all the potential categories for the column based on data dictionary
+        - in categories NA is decoded as -1
+        - also made few columns ordered as per data dictionary 
+        - made 'year' columns also categorical BUT they need binning  
+    - combine training and test data to get a better insight of missing data
+    - in training data handled numerical missing data by filling it with median value of the column in train data
+    - ISSUE: Assumed that nan is representing 'not applicable' column such as No Alley, No Fence; remove all 'NA', 'No fence' etc from data dictionary so that we don't get two hot-encoded NAN columns
+    - After one-hot encoding dropped nan for all categories so model is baselined when category's value is missing
+    - ISSUE: We got 610 hot-encoded columns whereas data size is only about 1500 records. Too many columns
+    - ISSUE: Number of columns are again different in model and test data
+        - columns missing in test data --> all one-hot-encoded columns for which the test data had no values
+        - columns missing in model
+        - year column is problematic because some years missing in test data and some missing in train data
+        - Good solution solution is binning
+        - For now removed the column that model is unaware of (additional cols in test data) and add columns that model is aware of (columns lacking in test data) ; Not a good strategy but doing to keep going. 
+        
+    - Applied the data conversion to categorical data in TEST data as well assuming we can do it. If we don't do it then numerical categories are not properly represnted.     
+    - ISSUE: at predict time due to missing values in numerical data. What do i do here? 
+        - Can not fill missing values in test data    
+    - Next TODO:    
+        - fill missing numerical value with the median of train data vs median of combined data
+        - Binning for year columns because its creating mismatched columns both in model and test data
+        - Does NAN in TEST Data means missing value or not applicable ?
+        - Does nan in train data represents a missing value or a not applicable value such as 'No Alley'
+        - Due to too many columns ; try catboost
+        - Hyperparameter tunning for RF : number of trees etc
+    
+
+    
