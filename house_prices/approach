@@ -1,0 +1,19 @@
+First Approach : 
+    - In training data handle missing data; filling with median or a certain categoery or 0 for null year 
+    - change object types to category types
+    - add dummy variables for all the categories
+    - remove one dummy for each category ( dummy variable trap)
+    - remove the categorical column for which we have created category
+    - scale data 
+    - Model 
+        - split the training data into test/train split 20:80 ratio
+        - build ols, lasso, ridge
+        - check model prediction on test from split
+        - calculate RMSE
+    - Check Model output on the given 'test' data   [FAILED] 
+        It FAILED because:
+            - the test data has 'missing' data for categorical variables 
+            - the missing categories are different in train and test file, leading to inconsistent dummy columns in test data
+            - Now because number of columns that model is built is different than the number of columns in test data, we can't really use the model as it is
+            - WE can add additional columns for categories that are missing in the test data BUT the additional categories that are present in test data are missing in the model so its not a good approach/model
+
