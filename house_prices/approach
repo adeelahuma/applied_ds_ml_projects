@@ -1,4 +1,4 @@
-First Approach : 
+First Attempt : 
     - In training data handle missing data; filling with median or a certain categoery or 0 for null year 
     - change object types to category types
     - add dummy variables for all the categories
@@ -18,7 +18,7 @@ First Approach :
             - We can add additional columns for categories that are missing in the test data BUT the additional categories that are present in test data are missing in the model so its not a good approach/model
 
 
-Second Aprroach: 
+Second Attempt: 
     - change object types to category types based on data dictionary in both test and train data. This way 
         - data gets all the potential categories for the column based on data dictionary
         - in categories NA is decoded as -1
@@ -38,7 +38,10 @@ Second Aprroach:
         
     - Applied the data conversion to categorical data in TEST data as well assuming we can do it. If we don't do it then numerical categories are not properly represnted.     
     - ISSUE: at predict time due to missing values in numerical data. What do i do here? 
-        - Can not fill missing values in test data    
+        - Can not fill missing values with median in test data   
+        - Filled missing values with 0
+        - FIRST KAGGLE Submission ; score = 0.24327; position = 4395
+        
     - Next TODO:    
         - fill missing numerical value with the median of train data vs median of combined data
         - Binning for year columns because its creating mismatched columns both in model and test data
@@ -47,5 +50,58 @@ Second Aprroach:
         - Due to too many columns ; try catboost
         - Hyperparameter tunning for RF : number of trees etc
     
-
+Third Attempt:
+    - Exploratory analysis of all columns:
+        - Sale Price : boxplot (it is showing outliers, could be expensive houses), distplot, 
+        - Categorical columns : catplot, boxplot, regplot
+        - Numerical columns:  
+            - distplot , mean|median|mode of each column, boxplot
+            - saleprice vs other columns : regplot, relplot 
+            - year columns 
+    - Based on EDA, converted following columns to categories:
+        - BsmtFullBath -- Odered 
+        - BsmtHalfBath -- (no-negative trend )
+        - FullBath -- ordered (upward trend)
+        - HalfBath -- ordered (upward trend)
+        - BedroomAbvGr -- ordered (upward trend)
+        - KitchenAbvGr -- ordered (down trend)
+        - TotRmsAbvGrd -- ordered (upward trend)
+        - Fireplaces -- ordered (upward trend)
+        - GarageCars -- ordered (upward trend)
+        - MoSold -- ordered
+        - Fix order for ordered categories; the first one in the list is minimum and the last one is max
+        - Add ordering for year /month columns   
+      - Added Binning by pd.cut() for : 'YearBuilt', 'YearRemodAdd', 'GarageYrBlt', 'YrSold', 'MoSold'  
+      - Based on EDA, removed following columns: 
+            - Not meaningful : BSMTFin2 , LowQualFinSF, EnclosedPorch, 3SsnPorch, ScreenPorch, MiscVal, PoolArea
+            - columns for which binning is added
+      -  Did all data wrangling (data_dictionary update, column type upfdate, binning , dropping ) on combined data to have consistent data for model and testing. 
+      - Filled missing values only for train data based on median of combined data
+      - Filled missing values with 0 for test data
+      - SECOND KAGGLE Submission ; score = 0.16459; position = 3604 [Issue: model had 700+ columns; forgot to remove binned columns]
+      - THIRD KAGGLE Submission ; score = 0.16437; position = 3600 [ model has 396 columns]
+            
+    - Next TODO
+        - should we remove rows where sale price > 400K; considering them as outliers? They could be expensive houses
+        - binning equal width binning (cut)?  vs equal distribution binning qcut ?
+        - Regularization
+        - write a strory about what matters most for house prices 
+        - Due to too many columns ; try catboost
+        - Hyperparameter tunning for RF : number of trees etc
     
+    - Thoughts
+        - SalePrice tends to increase with LoanFrontage, MasVnrArea, BsmtFinSf1, TotalBsmtSF, 1stFlrSF, GrLivArea, GarageArea, WoodDeckSF, OpenPorchSF, 
+        - not much affect with LotArea, 
+        - No to negative affect with BsmtFinSf2, LowQualFinSF, EnclosedPorchSF, MiscVal
+        - slight upward trend with BsmtUnfSF, 2stFlrSF, 3SsnPorch, ScreenPorch
+        - sale price is higher in January and July
+
+Attempt 4:
+    - Regularization
+    - Due to too many columns ; try catboost
+    - Hyperparameter tunning for RF : number of trees etc
+
+
+
+Helpful Articles
+- Binning in pandas --> https://pbpython.com/pandas-qcut-cut.html
