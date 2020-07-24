@@ -95,13 +95,68 @@ Third Attempt:
         - No to negative affect with BsmtFinSf2, LowQualFinSF, EnclosedPorchSF, MiscVal
         - slight upward trend with BsmtUnfSF, 2stFlrSF, 3SsnPorch, ScreenPorch
         - sale price is higher in January and July
+        
+        Links:
+            - Binning in pandas --> https://pbpython.com/pandas-qcut-cut.html
+            - Correlation on categorical data --> https://stackoverflow.com/questions/47894387/how-to-correlate-an-ordinal-categorical-column-in-pandas
 
 Attempt 4:
-    - Regularization
+    - Do not delete the parameters that show negative trend with sale because they may be contributing to cheap houses
+    - calculate corr() after converting columns to proper categories
+    - Do we need to do one-hot encoding for random forest? 
+      If yes, do we need to also take care of dummy variable trap for tree models? 
+        ---> scikit learn takes features in numeric form so we need to do encoding; 
+             we do not need to take care of dummy varaible trap for tree models /random forest
+    - Regularization ; for random forest regularization is done by parameter tunning
     - Due to too many columns ; try catboost
     - Hyperparameter tunning for RF : number of trees etc
+    
+    - **Things that I researched/learned**:
+        - Need to normalize numerical variables
+        - may need to do log transformation
+        - dummy encoding creates a sparse data and random forest performance will be worse
+        - random forest favours features for split that gives more pure nodes, dummy encoded variables will not be favoured
+        - H2O/Catboost dont require dummy encoding of categorical variables
+        - Data Leakage 
+        - Not going with this approach 
+        - Most of my analysis done in third attempt is correct
+        
+    - LINKS:
+        - DATSET pdf : http://jse.amstat.org/v19n3/decock.pdf
+        - CATBOOST : https://catboost.ai
+        - Alternates to One-HOT Encoding:https://github.com/scikit-learn-contrib/category_encoders
+        - EDA : https://www.kaggle.com/pmarcelino/comprehensive-data-exploration-with-python
+        - Model : https://www.kaggle.com/juliencs/a-study-on-regression-applied-to-the-ames-dataset
+        - Regularized Linear Model: https://www.kaggle.com/apapiu/regularized-linear-models
+        - Stacked Model: https://www.kaggle.com/serigne/stacked-regressions-top-4-on-leaderboard
+        - Data Leakage : https://www.kaggle.com/alexisbcook/data-leakage
+        - Overfitting in Random Forest: https://stats.stackexchange.com/questions/111968/random-forest-how-to-handle-overfitting
+        - Visual to RF: http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
+        - Categrical Variables and Tree models: https://medium.com/data-design/visiting-categorical-features-and-encoding-in-decision-trees-53400fa65931
+        - Cat. v. Lost in RF: https://roamanalytics.com/2016/10/28/are-categorical-variables-getting-lost-in-your-random-forests/
+        - https://www.kaggle.com/learn/intermediate-machine-learning
+        - scikit-learn Pipiline(?)
+        - Great Resource: https://www.kaggle.com/learn/intermediate-machine-learning
 
+Attempt 5 :
+    - Do not combine test and train data --> train-test contamination 
+    - Go through each column and put your analysis as per suggested EDA link above
+    - Re-do EDA on data 
+        - Sale Price
+            - histogram
+            - skewness and kurtosis
+         - Sale price vs numerical  
+             - scatter plot
+         - Sale price vs categorical
+             - box plot 
+    - Feature Selection/Engineering
+    - Do Regularized Regression
+    - Do Random Forest on fewer columns
+    - Do Catboost/H20 ; they do not require encoding of dummy variables
+    
+    - Links:
+        - Skewness and Kurtosis: https://brownmath.com/stat/shape.htm
+        - Probability Plot: https://blog.minitab.com/blog/applying-statistics-in-quality-projects/a-simple-guide-to-probability-plots
+    
+    
 
-
-Helpful Articles
-- Binning in pandas --> https://pbpython.com/pandas-qcut-cut.html
