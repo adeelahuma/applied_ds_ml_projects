@@ -142,21 +142,54 @@ Attempt 5 :
     - Do not combine test and train data --> train-test contamination 
     - Go through each column and put your analysis as per suggested EDA link above
     - Re-do EDA on data 
-        - Sale Price
-            - histogram
-            - skewness and kurtosis
-         - Sale price vs numerical  
-             - scatter plot
-         - Sale price vs categorical
-             - box plot 
-    - Feature Selection/Engineering
-    - Do Regularized Regression
-    - Do Random Forest on fewer columns
-    - Do Catboost/H20 ; they do not require encoding of dummy variables
+        - Univariate Analysis
+            -Sale Price
+                - boxplot | distplot
+                - skewness and kurtosis
+             - Rest of the columns 
+                 - skewness and kurtosis
+         - Bivariate Analysis
+             - Sale price vs numerical  
+                 - relplot
+             - Sale price vs categorical
+                 - box plot ; makes much sense to use boxplot compared to catplot and we get the same information in addition to outliers
+        - Corelations
+        - Missing Data 
+    - Feature Engineering/Selection
+        - convert columns to appropriate types
+        - drop records based on analysis
+        - Fill in missing values 
+        Feature Engineering :
+            - encode categories 
+            - create new features 
+            - binning
+            - log transformations (does not help tree models because they ae scale invariant but will help linear model and NN)
+        Feature Selection:
+        - used lasso to select KBest Features
+    - Applied similar transformations on test data
+    - Simple Random Forest on 38 columns 
+    - Third Kaggle Submission; score = 9.45943 --> Build a worst model 
     
+    - Next: 
+        - In EDA: chi sqaured correlations  or other point biserial etc.
+        - In feature engineering :  - add squares of numerical columns 
+        - univariate feature selection
+        - Pipline for transformation
+        - Do Regularized Regression
+        - Do Random Forest on fewer columns
+        - Do Catboost/H20 ; they do not require encoding of dummy variables
+        - CatBoost Encoding of all categorical variables with na dropped and kept 
+
     - Links:
         - Skewness and Kurtosis: https://brownmath.com/stat/shape.htm
-        - Probability Plot: https://blog.minitab.com/blog/applying-statistics-in-quality-projects/a-simple-guide-to-probability-plots
-    
-    
+        - Probability Plot: https://blog.minitab.com/blog/applying-statistics-in-quality-projects/a-simple-guide-to-probability-plots   
 
+What I learned: 
+    - If skewness is less than −1 or greater than +1, the distribution is highly skewed.
+    - A distribution with kurtosis >3 (excess kurtosis >0) is called leptokurtic. Compared to a normal distribution, its tails are longer and fatter, and often its central peak is higher and sharper.
+    - If skwed data has 0 values; log tranformation wont work --> Add a low number for now, 
+    later read this  https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3444996
+    - Dummifed data has no categorical data [Obvious]
+    - standardscaler turns the dataframe into numpy arrays and then you losse column names. To keep the column information, use a different syntax
+    - All things done for transformations on test data, must be part of a pipeline so we don't have to write similar code
+    - Model spit out error because it sees NAN or inf value in test data for numerical columns;filled with 0 for now.  
