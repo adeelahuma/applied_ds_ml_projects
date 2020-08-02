@@ -251,6 +251,9 @@ Attemp 6:
     - Seventh Kaggle Submission[CatBoost]; score = 9.45966 --> BAD BAD MODEL  
     - Eighth Kaggle Submission[Random Forest | Sale log removed]; score = 0.23725
     - Ninth Kaggle Submission[CatBoost | Sale log removed]; score = 0.13719
+   - Tenth Kaggle Submission[Lasso | Sale log removed]; score = 0.45450 
+     
     
 <<IMPORTANT>>kaggle submission didn't require you to the log values of the sle price. in sample file it clearly asks you to submit the actual price. that's why removing the log improved the performance. That has been mistake in all submissions because Kaggle scorer would have been taking log of your log leading to wrong results. sale_log_log is what kaggle scorrer is lookig at 
-    
+<<Solutions>> 
+Don't take log or take anti-log before submission or final values 
