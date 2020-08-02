@@ -225,7 +225,7 @@ Attemp 6:
         - Apply XGBoost 
         - Apply RandomForest --> Kaggle score = 9.46021
         - Apply RandomForest with hyper-parameter optimization--> Kaggle score = 9.46038
-        - Apply CatBoost
+        - Apply CatBoost with hyper-parameter optimization--> Kaggle score = 9.45966
 
     - THOUGHTS:
         - order information in categorical variables is really lost when we do dummy encoding ? is this corrct thought?
@@ -243,7 +243,13 @@ Attemp 6:
         - Grid Search CV: https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74
         - Binning issues: https://stats.stackexchange.com/questions/390705/why-should-binning-be-avoided-at-all-costs
         - ordinal vs categorical : https://stats.idre.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-numerical-variables/
+        - hyperparameter Tunning: https://www.kaggle.com/willkoehrsen/intro-to-model-tuning-grid-and-random-search
         
     - Fourth Kaggle Submission[Linear Regression]; score = 9.45990 --> BAD BAD MODEL
-    - Fifth Kaggle Submission[Linear Regression]; score = 9.46021 --> BAD BAD MODEL
+    - Fifth Kaggle Submission[Random Forest]; score = 9.46021 --> BAD BAD MODEL
+    - Sixth Kaggle Submission[Random Forest]; score = 9.46022 --> BAD BAD MODEL  removed None
+    - Seventh Kaggle Submission[CatBoost]; score = 9.45966 --> BAD BAD MODEL  
+    - Eighth Kaggle Submission[Random Forest | Sale log removed]; score = 0.23725
+    - Ninth Kaggle Submission[CatBoost | Sale log removed]; score = 
+    
     
