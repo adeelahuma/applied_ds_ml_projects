@@ -169,7 +169,11 @@ Attempt 5 :
     - Applied similar transformations on test data
     - Simple Random Forest on 38 columns 
     - Third Kaggle Submission; score = 9.45943 --> Build a worst model 
-    
+
+    - Lessons Learned
+        - clearly what i did in terms of transformations etc is not right. 
+        - take the 
+        
     - Next: 
         - In EDA: chi sqaured correlations  or other point biserial etc.
         - In feature engineering :  - add squares of numerical columns 
@@ -193,3 +197,53 @@ What I learned:
     - standardscaler turns the dataframe into numpy arrays and then you losse column names. To keep the column information, use a different syntax
     - All things done for transformations on test data, must be part of a pipeline so we don't have to write similar code
     - Model spit out error because it sees NAN or inf value in test data for numerical columns;filled with 0 for now.  
+    
+
+    
+
+Attemp 6:
+    - Action Plan    
+        - choose the best of all the options tried so far 
+            - convert nan for categories to 'No Alley' or choose the mode of the category etc  --> done
+            - Keep NA as the first category  --> done
+            - Revisit categorical vs ordinal in data_dictionary  --> done
+                - removing bathrooms, kitch, FirePlaces, bedrooms from ordinal variables because its hard to say if 5 bedroom is better then 3. It really depends. 
+                - found a bug in data_dictionary ; 'NAmes' was in data but data has 'Names' that lead to missing values in data
+                - similar issue for BldgType, Exterior2nd, Exterior1st
+                - Question : Practically should they be handled at training time or prediction time?
+            - Use the approach of missing data as in '02_eda_missing_data.ipy' --> done
+            - bin year columns  --> done
+                - binning with cut() was creating edges (] where some data was getting null values because its value was not included in any of the bins, 
+                - qcut() won't work because test data could have different distribution so using pd.IntervalIndex.from_breaks(yr_built_bins, closed ='left') to create defined intervals
+            - take log of saleprice --> done
+            - delete outliers  --> done
+            - add new features ---> done
+            - check for correlation 
+            - do scaling for numerical columns ONLY when using OLS --> done
+            - when dummy encoding do drop 1 column for OLS ONLY --> done
+        - Apply Simple Linear Regression + Lasso+Ridge (scaling + dummy trap)  --> Done BAD Model; 361 features; Lasoo picked 144 columns 
+        - Apply XGBoost 
+        - Apply RandomForest --> Kaggle score = 9.46021
+        - Apply RandomForest with hyper-parameter optimization--> Kaggle score = 9.46038
+        - Apply CatBoost
+
+    - THOUGHTS:
+        - order information in categorical variables is really lost when we do dummy encoding ? is this corrct thought?
+        - We can create bias if we fill in a lot of missing data; think of houses year built, if you subsitute it with mean year and thoes houses were new then your model is biased to predict value for mean house years
+        - Why qcut() is able to have better intervals wheras for cut() we can't specify duplicate values 
+        - What does -R2 means?
+        - How to handle equal width binning by specifying intervals
+    - What I learned
+        - plt.scatter() == sns.relplot()
+        - Taking logs means that errors in predicting expensive houses and cheap houses will affect the result equally.
+    
+    - Links
+        - Interpreting Residuals: https://www.youtube.com/watch?time_continue=297&v=EB5a_vENd5Q&feature=emb_logo
+        - Why sum of residuals is zero in OLS?
+        - Grid Search CV: https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74
+        - Binning issues: https://stats.stackexchange.com/questions/390705/why-should-binning-be-avoided-at-all-costs
+        - ordinal vs categorical : https://stats.idre.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-numerical-variables/
+        
+    - Fourth Kaggle Submission[Linear Regression]; score = 9.45990 --> BAD BAD MODEL
+    - Fifth Kaggle Submission[Linear Regression]; score = 9.46021 --> BAD BAD MODEL
+    
